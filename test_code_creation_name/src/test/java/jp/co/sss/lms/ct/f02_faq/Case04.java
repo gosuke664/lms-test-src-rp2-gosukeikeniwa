@@ -1,6 +1,7 @@
 package jp.co.sss.lms.ct.f02_faq;
 
 import static jp.co.sss.lms.ct.util.WebDriverUtils.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -40,6 +41,9 @@ public class Case04 {
 	void test01() {
 		WebDriverUtils.goTo("http://localhost:8080/lms");
 		
+		//画面遷移が成功したかの確認
+		assertEquals("ログイン | LMS", webDriver.getTitle());
+		
 		//スクリーンショットを撮影する
 		WebDriverUtils.getEvidence(new Object() {});
 	}
@@ -53,7 +57,10 @@ public class Case04 {
 	
 		//要素を取得しログインボタンをクリック (click)
 		webDriver.findElement(By.cssSelector("input[type='submit']")).click();
-	
+		
+		//画面遷移が成功したかの確認
+		assertEquals("コース詳細 | LMS", webDriver.getTitle());
+		
 		//スクリーンショットを撮影する
 		WebDriverUtils.getEvidence(new Object() {});
 	}
@@ -68,13 +75,30 @@ public class Case04 {
 		//ヘルプリンクをクリックする
 		webDriver.findElement(By.linkText("ヘルプ")).click(); 
 		
+		//画面遷移が成功したかの確認
+		assertEquals("ヘルプ | LMS", webDriver.getTitle());
+		
+		//スクリーンショットを撮影する
+		WebDriverUtils.getEvidence(new Object() {});
+		
 	}
 
 	@Test
 	@Order(4)
 	@DisplayName("テスト04 「よくある質問」リンクからよくある質問画面を別タブに開く")
 	void test04() {
-		// TODO ここに追加
+		//よくある質問リンクをクリック
+		webDriver.findElement(By.linkText("よくある質問")).click();  
+	    //別タブに切り替える
+        Object[] windowHandles = webDriver.getWindowHandles().toArray();
+        webDriver.switchTo().window((String) windowHandles[1]);
+        //よくある質問画面を別タブで表示する
+        String title = webDriver.getTitle();
+      //画面遷移が成功したかの確認
+        assertEquals("よくある質問 | LMS",title);
+		
+		//スクリーンショットを撮影する
+		WebDriverUtils.getEvidence(new Object() {});
 	}
 
 }
