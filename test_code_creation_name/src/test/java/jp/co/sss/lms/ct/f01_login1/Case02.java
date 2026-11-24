@@ -1,9 +1,9 @@
 package jp.co.sss.lms.ct.f01_login1;
 
-import java.time.Duration;
+import static jp.co.sss.lms.ct.util.WebDriverUtils.*;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -12,11 +12,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.boot.test.web.server.LocalServerPort;
 
 import jp.co.sss.lms.ct.util.WebDriverUtils;
 
@@ -30,29 +25,19 @@ import jp.co.sss.lms.ct.util.WebDriverUtils;
 @DisplayName("ケース02 受講生 ログイン 認証失敗")
 public class Case02 {
 
-			@LocalServerPort
-			private int port;
-			
-			
-			private WebDriver driver;
-			
-			private WebDriverWait wait;
-			
+	        private WebDriver driver;
+	
+	
 			/** 前処理 */
-			@BeforeEach
-			void setUp() {
-				ChromeOptions options = new ChromeOptions();
-				driver = new ChromeDriver(options);
-				driver = WebDriverUtils.webDriver;  
-				wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+			@BeforeAll
+			static void before() {
+				createDriver();
 			}
 			
 			/** 後処理 */
-			@AfterEach
-			void tearDown() {
-				if (driver != null) {
-					driver.quit();
-				}
+			@AfterAll
+			static void after() {
+				closeDriver();
 			}
 			
 			@Test
@@ -61,11 +46,7 @@ public class Case02 {
 			public void testLoginDisplay1() throws Exception {
 			
 				// URLを開く
-				driver.get("http://localhost:8080/lms");
-			
-				// 待機時間
-				wait.until(ExpectedConditions.visibilityOfElementLocated(
-						By.cssSelector("input[type='submit'][value='ログイン']")));
+				WebDriverUtils.goTo("http://localhost:8080/lms");
 			
 				//スクリーンショットを撮影する
 				WebDriverUtils.getEvidence(new Object() {});
@@ -75,25 +56,17 @@ public class Case02 {
 			@Order(2)
 			@DisplayName("テスト02 DBに登録されていないユーザーでログイン")
 			public void testLoginDisplay2() throws Exception {
-			
-				// URLを開く
-				driver.get("http://localhost:8080/lms");
-			
-				// 待機時間
-				wait.until(ExpectedConditions.visibilityOfElementLocated(
-						By.name("loginId")));
-			
+				
 				// DB情報にないログインID＆パスワードを入力
-				driver.findElement(By.name("loginId")).sendKeys("XXX");
-				driver.findElement(By.name("password")).sendKeys("XXX");
+				webDriver.findElement(By.name("loginId")).sendKeys("XXX");
+				webDriver.findElement(By.name("password")).sendKeys("XXX");
 			
 				//要素を取得しログインボタンをクリック (click)
-				driver.findElement(By.cssSelector("input[type='submit']")).click();
+				webDriver.findElement(By.cssSelector("input[type='submit']")).click();
 			
 				// エラーメッセージが表示されるまで待機
-				WebElement errorMessage = wait.until(
-						ExpectedConditions.visibilityOfElementLocated(
-								By.cssSelector("span.help-inline.error")));
+				visibilityTimeout(By.className("error"), 10);
+				WebElement errorMsg = webDriver.findElement(By.className("error"));
 			
 				//スクリーンショットを撮影する
 				WebDriverUtils.getEvidence(new Object() {});

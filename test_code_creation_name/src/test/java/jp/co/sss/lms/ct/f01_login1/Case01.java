@@ -1,15 +1,16 @@
 package jp.co.sss.lms.ct.f01_login1;
 
-import org.junit.jupiter.api.BeforeEach;
+import static jp.co.sss.lms.ct.util.WebDriverUtils.*;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
+
+import jp.co.sss.lms.util.Constants;
 
 /**
  * 結合テスト ログイン機能①
@@ -18,24 +19,26 @@ import org.springframework.boot.test.web.server.LocalServerPort;
  */
 @TestMethodOrder(OrderAnnotation.class)
 @DisplayName("ケース01 ログイン画面への遷移")
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class Case01 {
 
-	@LocalServerPort
-	private int port;
-
-	private WebDriver driver;
-	
 	/** 前処理 */
-	@BeforeEach
-	void setUp() {
-		ChromeOptions options = new ChromeOptions();
-		driver = new ChromeDriver(options);
+	@BeforeAll
+	static void before() {
+		createDriver();
 	}
-	// URLを開く
+
+	/** 後処理 */
+	@AfterAll
+	static void after() {
+		closeDriver();
+	}
+
 	@Test
-	void testLoginPage() {
-		driver.get("http://localhost:" + port + "/lms");
-      }
-	
+	@Order(1)
+	@DisplayName("テスト01 トップページURLでアクセス")
+	void test01() {
+		goTo("http://localhost:" + Constants.PORT + "/lms");
+		getEvidence(new Object() {});
+	}
+
 }

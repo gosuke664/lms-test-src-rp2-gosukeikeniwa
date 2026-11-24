@@ -362,5 +362,7 @@ public interface Constants {
 	/** 管理者フラグ */
 	public static final Short ADMIN_FLG_FALSE = 0;
 	public static final Short ADMIN_FLG_TRUE = 1;
+	public static final String CONTEXT_PATH = null;
+	public static final int PORT = 8080;
 
 }
