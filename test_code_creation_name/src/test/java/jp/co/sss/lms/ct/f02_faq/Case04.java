@@ -9,6 +9,9 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.openqa.selenium.By;
+
+import jp.co.sss.lms.ct.util.WebDriverUtils;
 
 /**
  * 結合テスト よくある質問機能
@@ -35,21 +38,36 @@ public class Case04 {
 	@Order(1)
 	@DisplayName("テスト01 トップページURLでアクセス")
 	void test01() {
-		// TODO ここに追加
+		WebDriverUtils.goTo("http://localhost:8080/lms");
+		
+		//スクリーンショットを撮影する
+		WebDriverUtils.getEvidence(new Object() {});
 	}
 
 	@Test
 	@Order(2)
 	@DisplayName("テスト02 初回ログイン済みの受講生ユーザーでログイン")
 	void test02() {
-		// TODO ここに追加
+		webDriver.findElement(By.name("loginId")).sendKeys("StudentAA01");
+		webDriver.findElement(By.name("password")).sendKeys("Gosuke0826");
+	
+		//要素を取得しログインボタンをクリック (click)
+		webDriver.findElement(By.cssSelector("input[type='submit']")).click();
+	
+		//スクリーンショットを撮影する
+		WebDriverUtils.getEvidence(new Object() {});
 	}
 
 	@Test
 	@Order(3)
 	@DisplayName("テスト03 上部メニューの「ヘルプ」リンクからヘルプ画面に遷移")
 	void test03() {
-		// TODO ここに追加
+		//機能タブをクリック
+		webDriver.findElement(By.linkText("機能")).click();  
+		
+		//ヘルプリンクをクリックする
+		webDriver.findElement(By.linkText("ヘルプ")).click(); 
+		
 	}
 
 	@Test

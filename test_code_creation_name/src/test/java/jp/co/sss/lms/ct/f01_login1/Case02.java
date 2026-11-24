@@ -1,6 +1,7 @@
 package jp.co.sss.lms.ct.f01_login1;
 
 import static jp.co.sss.lms.ct.util.WebDriverUtils.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -43,11 +44,14 @@ public class Case02 {
 			@Test
 			@Order(1)
 			@DisplayName("テスト01 トップページURLでアクセス")
-			public void testLoginDisplay1() throws Exception {
+			 void test01()  {
 			
 				// URLを開く
 				WebDriverUtils.goTo("http://localhost:8080/lms");
 			
+				//画面遷移が成功したかの確認
+				assertEquals("ログイン | LMS", webDriver.getTitle());
+				
 				//スクリーンショットを撮影する
 				WebDriverUtils.getEvidence(new Object() {});
 			}
@@ -55,7 +59,7 @@ public class Case02 {
 			@Test
 			@Order(2)
 			@DisplayName("テスト02 DBに登録されていないユーザーでログイン")
-			public void testLoginDisplay2() throws Exception {
+			 void test02 ()  {
 				
 				// DB情報にないログインID＆パスワードを入力
 				webDriver.findElement(By.name("loginId")).sendKeys("XXX");
@@ -67,6 +71,9 @@ public class Case02 {
 				// エラーメッセージが表示されるまで待機
 				visibilityTimeout(By.className("error"), 10);
 				WebElement errorMsg = webDriver.findElement(By.className("error"));
+				
+				//エラーメッセージが表示されたかの確認
+				assertTrue(errorMsg.isDisplayed());
 			
 				//スクリーンショットを撮影する
 				WebDriverUtils.getEvidence(new Object() {});
