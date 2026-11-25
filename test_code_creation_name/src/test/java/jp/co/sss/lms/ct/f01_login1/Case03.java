@@ -12,8 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
 
-import jp.co.sss.lms.ct.util.WebDriverUtils;
-
 /**
  * 結合テスト ログイン機能①
  * ケース03
@@ -46,7 +44,7 @@ public class Case03 {
 		assertEquals("ログイン | LMS", webDriver.getTitle());
 		
 		//スクリーンショットを撮影する
-		WebDriverUtils.getEvidence(new Object() {});
+		getEvidence(new Object() {});
 	}
 
 	@Test
@@ -64,7 +62,7 @@ public class Case03 {
 		assertEquals("コース詳細 | LMS", webDriver.getTitle());
 	
 		//スクリーンショットを撮影する
-		WebDriverUtils.getEvidence(new Object() {});
+		getEvidence(new Object() {});
 	}
 
 }
