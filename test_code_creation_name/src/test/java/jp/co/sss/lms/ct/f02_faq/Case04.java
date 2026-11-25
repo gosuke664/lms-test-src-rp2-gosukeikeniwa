@@ -39,7 +39,7 @@ public class Case04 {
 	@Order(1)
 	@DisplayName("テスト01 トップページURLでアクセス")
 	void test01() {
-		WebDriverUtils.goTo("http://localhost:8080/lms");
+		goTo("http://localhost:8080/lms");
 		
 		//画面遷移が成功したかの確認
 		assertEquals("ログイン | LMS", webDriver.getTitle());
@@ -52,6 +52,7 @@ public class Case04 {
 	@Order(2)
 	@DisplayName("テスト02 初回ログイン済みの受講生ユーザーでログイン")
 	void test02() {
+		// DB情報にあるログインID＆パスワードを入力
 		webDriver.findElement(By.name("loginId")).sendKeys("StudentAA01");
 		webDriver.findElement(By.name("password")).sendKeys("Gosuke0826");
 	

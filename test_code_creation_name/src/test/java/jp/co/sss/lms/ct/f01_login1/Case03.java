@@ -40,7 +40,7 @@ public class Case03 {
 	@DisplayName("テスト01 トップページURLでアクセス")
 	void test01()  {
 		// URLを開く
-		WebDriverUtils.goTo("http://localhost:8080/lms");
+		goTo("http://localhost:8080/lms");
 	
 		//画面遷移が成功したかの確認
 		assertEquals("ログイン | LMS", webDriver.getTitle());
