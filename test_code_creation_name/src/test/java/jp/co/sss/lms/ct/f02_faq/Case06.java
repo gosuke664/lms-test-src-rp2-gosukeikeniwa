@@ -114,20 +114,28 @@ public class Case06 {
 	void test05() {
 		//よくある質問リンクをクリック
 		webDriver.findElement(By.linkText("【研修関係】")).click(); 
+		
 		//検索結果がみえるところまでスクロールする
 		JavascriptExecutor down = (JavascriptExecutor) webDriver;
 		down.executeScript("window.scrollTo(0, document.body.scrollHeight);"); 
-		//検索結果が表示されたかの確認
-		List <String> result =List.of("キャンセル料・途中退校について",
-				"研修の申し込みはどのようにすれば良いですか？");
+		
+		//検索結果をresultに代入
+		List <String> result = List.of(
+				"Q.キャンセル料・途中退校について",
+				"Q.研修の申し込みはどのようにすれば良いですか？");
+		
+		//リストに代入
 		List<WebElement> expectedResult = webDriver.findElements(By.className("mb10")); 
 		List<String> list = new ArrayList<>();
-		for(WebElement input : expectedResult) {
-		list.add(input.getText());	
 		
+		for(WebElement input : expectedResult) {
+		 list.add(input.getText());
+		}
+		 //検索結果が表示されたかを確認する
+		 assertEquals(result,list);
 		//スクリーンショットを撮影する
 		getEvidence(new Object() {});	
-	   }
+	   
 	}
 
 	@Test
@@ -141,7 +149,7 @@ public class Case06 {
 		 //検索結果の1つ目の質問をクリック
 		 webDriver.findElement(By.id("question-h0")).click(); 
 		 
-		 //回答を表示するされたかの確認(1個目)
+		 //回答が表示されたかの確認(1個目)
 		 WebElement answer1 = webDriver.findElement(By.id("answer-h0"));
 		 assertTrue(answer1.isDisplayed());
          
@@ -155,7 +163,7 @@ public class Case06 {
          //検索結果の2つ目の質問をクリック
          webDriver.findElement(By.id("question-h1")).click(); 
          
-         //回答を表示するされたかの確認(2個目)
+         //回答が表示されたかの確認(2個目)
          WebElement answer2 = webDriver.findElement(By.id("answer-h1"));
 		 assertTrue(answer2.isDisplayed());
 		 
