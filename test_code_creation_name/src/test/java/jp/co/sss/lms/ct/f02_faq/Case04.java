@@ -37,6 +37,7 @@ public class Case04 {
 	@Order(1)
 	@DisplayName("テスト01 トップページURLでアクセス")
 	void test01() {
+		// URLを開く
 		goTo("http://localhost:8080/lms");
 		
 		//画面遷移が成功したかの確認
