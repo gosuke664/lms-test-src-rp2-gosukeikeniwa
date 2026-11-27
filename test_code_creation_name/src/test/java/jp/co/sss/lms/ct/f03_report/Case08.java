@@ -1,6 +1,9 @@
 package jp.co.sss.lms.ct.f03_report;
 
 import static jp.co.sss.lms.ct.util.WebDriverUtils.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -9,6 +12,9 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
 
 /**
  * 結合テスト レポート機能
@@ -35,49 +41,129 @@ public class Case08 {
 	@Order(1)
 	@DisplayName("テスト01 トップページURLでアクセス")
 	void test01() {
-		// TODO ここに追加
+		// URLを開く
+		goTo("http://localhost:8080/lms");
+		
+		//画面遷移が成功したかの確認
+		assertEquals("ログイン | LMS", webDriver.getTitle());
+		
+		//スクリーンショットを撮影する
+		getEvidence(new Object() {});
 	}
 
 	@Test
 	@Order(2)
 	@DisplayName("テスト02 初回ログイン済みの受講生ユーザーでログイン")
 	void test02() {
-		// TODO ここに追加
+		// DB情報にあるログインID＆パスワードを入力
+		webDriver.findElement(By.name("loginId")).sendKeys("StudentAA01");
+		webDriver.findElement(By.name("password")).sendKeys("Gosuke0826");
+	
+		//要素を取得しログインボタンをクリック (click)
+		webDriver.findElement(By.cssSelector("input[type='submit']")).click();
+		
+		//画面遷移が成功したかの確認
+		assertEquals("コース詳細 | LMS", webDriver.getTitle());
+		
+		//スクリーンショットを撮影する
+		getEvidence(new Object() {});
 	}
 
 	@Test
 	@Order(3)
 	@DisplayName("テスト03 提出済の研修日の「詳細」ボタンを押下しセクション詳細画面に遷移")
 	void test03() {
-		// TODO ここに追加
+		//コース詳細画面で2022年10月6日(木)の「詳細」ボタンを押下
+		webDriver.findElements(By.cssSelector(".btn.btn-default")).get(2).click();
+		
+		//画面遷移が成功したかの確認
+		assertEquals("セクション詳細 | LMS", webDriver.getTitle());
+		
+		//スクリーンショットを撮影する
+		getEvidence(new Object() {});
 	}
 
 	@Test
 	@Order(4)
 	@DisplayName("テスト04 「確認する」ボタンを押下しレポート登録画面に遷移")
 	void test04() {
-		// TODO ここに追加
+		//確認ボタンがみえるところまでスクロールする
+		JavascriptExecutor down = (JavascriptExecutor) webDriver;
+		down.executeScript("window.scrollTo(0, document.body.scrollHeight);"); 
+		
+		//「提出済み週報【デモ】を確認する」ボタンを押下する
+		webDriver.findElement(By.cssSelector("input[type='submit'][value='提出済み週報【デモ】を確認する']")).click();
+		
+		//画面遷移が成功したかの確認
+		assertEquals("レポート登録 | LMS", webDriver.getTitle());
+		
+		//スクリーンショットを撮影する
+		getEvidence(new Object() {});
 	}
 
 	@Test
 	@Order(5)
 	@DisplayName("テスト05 報告内容を修正して「提出する」ボタンを押下しセクション詳細画面に遷移")
 	void test05() {
-		// TODO ここに追加
+		//既存の内容をクリアして、報告内容を入力する
+		WebElement content = webDriver.findElement(By.name("contentArray[1]"));
+		content.clear();
+		content.sendKeys("あれこれ頑張った。");
+		 
+		//正しく入力されているか確認する
+		assertEquals("あれこれ頑張った。",content.getAttribute("value"));
+		 
+		//提出ボタンがみえるところまでスクロールする
+		JavascriptExecutor down = (JavascriptExecutor) webDriver;
+		down.executeScript("window.scrollTo(0, document.body.scrollHeight);"); 
+		
+		//要素を取得し提出するボタンをクリック (click)
+		WebElement willsubmit = webDriver.findElement(By.cssSelector("button[type='submit']"));
+		willsubmit.click();
+		
+		//画面遷移が成功したかの確認
+		assertEquals("セクション詳細 | LMS", webDriver.getTitle());
+		
+		//スクリーンショットを撮影する
+		getEvidence(new Object() {});
 	}
 
 	@Test
 	@Order(6)
 	@DisplayName("テスト06 上部メニューの「ようこそ○○さん」リンクからユーザー詳細画面に遷移")
 	void test06() {
-		// TODO ここに追加
+		//「ようこそ○○さん」リンクをクリック
+		webDriver.findElement(By.linkText("ようこそ受講生ＡＡ１さん")).click();  
+		
+		//画面遷移が成功したかの確認
+		assertEquals("ユーザー詳細", webDriver.getTitle());
+		
+		//スクリーンショットを撮影する
+		getEvidence(new Object() {});
 	}
 
 	@Test
 	@Order(7)
 	@DisplayName("テスト07 該当レポートの「詳細」ボタンを押下しレポート詳細画面で修正内容が反映される")
 	void test07() {
-		// TODO ここに追加
-	}
+		//詳細ボタンがみえるところまでスクロールする
+		JavascriptExecutor down = (JavascriptExecutor) webDriver;
+		down.executeScript("window.scrollTo(0, document.body.scrollHeight);"); 
+		
+		//要素を取得し詳細ボタンをクリック (click)
+		webDriver.findElements(By.cssSelector(".btn.btn-default")).get(6).click();
 
-}
+		//画面遷移が成功したかの確認
+		assertEquals("レポート詳細 | LMS", webDriver.getTitle());
+		
+		//レポート詳細画面で修正内容が反映されたかの確認
+		List<WebElement> tableElements = webDriver.findElements(By.tagName("table"));
+		List<WebElement> search = tableElements.get(2).findElements(By.tagName("td"));
+		assertEquals("あれこれ頑張った。",search.get(1).getText());;
+		
+		//スクリーンショットを撮影する
+		getEvidence(new Object() {});
+     	}
+
+	}	
+
